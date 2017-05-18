@@ -10,9 +10,12 @@ import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
 import android.widget.Toast;
 
 import com.example.jean.testcontact.R;
@@ -31,6 +34,7 @@ public class FragmentLocal extends Fragment {
     private ContactAdapter contactAdapter;
     private Cursor cursor;
     private static final int PERMISSIONS_REQUEST = 100;
+    private EditText search;
 
     public FragmentLocal() {
         //
@@ -48,6 +52,33 @@ public class FragmentLocal extends Fragment {
         //Méthode gère l'affichage des contacts du téléphone
         affichContact();
 
+        search.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence query, int start, int before, int count) {
+                query = query.toString().toLowerCase();
+                final ArrayList<Contact> filteredList = new ArrayList<Contact>();
+                for(int i=0; i < mesContacts.size(); i++){
+                    final String text = mesContacts.get(i).getName().toLowerCase();
+                    if(text.contains(query)){
+                        filteredList.add(mesContacts.get(i));
+                    }
+                }
+                rv.setLayoutManager(new LinearLayoutManager(getActivity()));
+                contactAdapter = new ContactAdapter(filteredList,getActivity(),1);
+                rv.setAdapter(contactAdapter);
+                contactAdapter.notifyDataSetChanged();
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
         return view;
     }
 
@@ -56,6 +87,7 @@ public class FragmentLocal extends Fragment {
      */
     private void retrieveView(View view) {
         rv = (RecyclerView) view.findViewById(R.id.idRecyclerLocal);
+        search = (EditText) view.findViewById(R.id.searchLocal);
     }
 
 
@@ -63,13 +95,13 @@ public class FragmentLocal extends Fragment {
      * Méthoe qui gère la création et l'affichage de la liste déroulante
      */
     private void affichContact() {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && ContextCompat.checkSelfPermission(getActivity(), Manifest.permission.READ_CONTACTS) != PackageManager.PERMISSION_GRANTED) {
-            requestPermissions(new String[]{Manifest.permission.READ_CONTACTS}, PERMISSIONS_REQUEST);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && ContextCompat.checkSelfPermission(getActivity(), Manifest.permission.READ_CONTACTS) != PackageManager.PERMISSION_GRANTED && ContextCompat.checkSelfPermission(getActivity(), Manifest.permission.CALL_PHONE) != PackageManager.PERMISSION_GRANTED) {
+            requestPermissions(new String[]{Manifest.permission.READ_CONTACTS, Manifest.permission.CALL_PHONE, Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.INTERNET, Manifest.permission.SEND_SMS}, PERMISSIONS_REQUEST);
         }else {
             mesContacts = recupAllPhoneContacts();
             LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
             rv.setLayoutManager(layoutManager);
-            contactAdapter = new ContactAdapter(mesContacts, getActivity());
+            contactAdapter = new ContactAdapter(mesContacts, getActivity(),1);
             rv.setAdapter(contactAdapter);
         }
     }
@@ -101,7 +133,7 @@ public class FragmentLocal extends Fragment {
         {
             String name = cursor.getString(cursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME));
             String tel = cursor.getString(cursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER));
-            allContacts.add(new Contact(null, name, name, tel));
+            allContacts.add(new Contact(null, name, null, tel));
         }
         return allContacts;
     }

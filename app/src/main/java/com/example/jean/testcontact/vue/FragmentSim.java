@@ -13,9 +13,12 @@ import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
 import android.widget.Toast;
 
 import com.example.jean.testcontact.R;
@@ -33,6 +36,7 @@ public class FragmentSim extends Fragment {
     private RecyclerView rv;
     private ContactAdapter contactAdapter;
     private Cursor cursorSim;
+    private EditText search;
     private static final int PERMISSIONS_REQUEST = 100;
 
     public FragmentSim() {
@@ -52,6 +56,33 @@ public class FragmentSim extends Fragment {
         //Méthode gère l'affichage des contacts du téléphone
         affichContact();
 
+        search.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence query, int start, int before, int count) {
+                query = query.toString().toLowerCase();
+                final ArrayList<Contact> filteredList = new ArrayList<Contact>();
+                for(int i=0; i < mesContacts.size(); i++){
+                    final String text = mesContacts.get(i).getName().toLowerCase();
+                    if(text.contains(query)){
+                        filteredList.add(mesContacts.get(i));
+                    }
+                }
+                rv.setLayoutManager(new LinearLayoutManager(getActivity()));
+                contactAdapter = new ContactAdapter(filteredList,getActivity(),2);
+                rv.setAdapter(contactAdapter);
+                contactAdapter.notifyDataSetChanged();
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
 
         return view;
     }
@@ -66,7 +97,7 @@ public class FragmentSim extends Fragment {
             mesContacts = recupContactsSim();
             LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
             rv.setLayoutManager(layoutManager);
-            contactAdapter = new ContactAdapter(mesContacts, getActivity());
+            contactAdapter = new ContactAdapter(mesContacts, getActivity(), 2);
             rv.setAdapter(contactAdapter);
         }
     }
@@ -89,6 +120,7 @@ public class FragmentSim extends Fragment {
      */
     private void retrieveView(View view) {
         rv = (RecyclerView) view.findViewById(R.id.idRecyclerSim);
+        search = (EditText) view.findViewById(R.id.searchSim);
     }
 
     private ArrayList<Contact> recupContactsSim() {
@@ -104,7 +136,7 @@ public class FragmentSim extends Fragment {
                 String name = cursorSim.getString(cursorSim.getColumnIndex(Contacts.People.NAME));
                 String tel = cursorSim.getString(cursorSim.getColumnIndex(Contacts.People.NUMBER));
                 String id = cursorSim.getString(cursorSim.getColumnIndex(Contacts.People._ID));
-                listeContact.add(new Contact(id, name, name, tel));
+                listeContact.add(new Contact(id, name, null, tel));
             } while (cursorSim.moveToNext());
         }
         return listeContact;

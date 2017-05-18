@@ -14,34 +14,51 @@
             android:layout_width="match_parent"
             android:layout_height="70dp">
 
-            <ImageView
-                app:srcCompat="@android:color/white"
+            <TextView
+                android:text="@string/tel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/idTel"
+                android:layout_below="@+id/idNom"
+                android:layout_alignLeft="@+id/idNom"
+                android:layout_alignStart="@+id/idNom"
+                android:textColor="@color/secondary_text" />
+
+            <QuickContactBadge
+                android:layout_height="wrap_content"
+                android:id="@+id/idBadge"
                 android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
                 android:layout_alignParentTop="true"
-                android:id="@+id/idPhoto"
                 android:layout_alignParentBottom="true"
                 android:layout_width="60dp"
-                android:layout_height="40dp" />
+                />
 
             <TextView
                 android:text="@string/nom"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignParentTop="true"
-                android:layout_toRightOf="@+id/idPhoto"
-                android:layout_marginLeft="25dp"
-                android:layout_marginTop="10dp"
-                android:id="@+id/idNom" />
+                android:layout_marginLeft="33dp"
+                android:id="@+id/idNom"
+                android:layout_marginStart="33dp"
+                android:layout_centerVertical="true"
+                android:layout_toRightOf="@+id/idBadge"
+                android:layout_toEndOf="@+id/idBadge"
+                android:textColor="@color/primary_text" />
 
-            <TextView
-                android:text="@string/tel"
+            <ImageButton
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/idNom"
-                android:layout_alignLeft="@+id/idNom"
-                android:layout_marginTop="14dp"
-                android:id="@+id/idTel" />
+                app:srcCompat="@drawable/call_primnew"
+                android:layout_marginRight="20dp"
+                android:layout_marginEnd="20dp"
+                android:id="@+id/btnCall"
+                android:background="@color/icons"
+                android:layout_alignTop="@+id/idNom"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentEnd="true" />
 
         </RelativeLayout>
+
     </android.support.v7.widget.CardView>
 </LinearLayout>

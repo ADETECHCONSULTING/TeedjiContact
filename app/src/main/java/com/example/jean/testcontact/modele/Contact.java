@@ -1,5 +1,7 @@
 package com.example.jean.testcontact.modele;
 
+import android.graphics.Bitmap;
+
 /**
  * Created by JEAN on 17/05/2017.
  */
@@ -7,13 +9,13 @@ package com.example.jean.testcontact.modele;
 public class Contact {
     private String id;
     private String name;
-    private String prenom;
+    private Bitmap quickContact;
     private String tel;
 
-    public Contact(String id,String name, String prenom, String tel) {
+    public Contact(String id,String name, Bitmap quickContact, String tel) {
         this.id = id;
         this.name = name;
-        this.prenom = prenom;
+        this.quickContact = quickContact;
         this.tel = tel;
     }
 
@@ -33,12 +35,12 @@ public class Contact {
         this.name = name;
     }
 
-    public String getPrenom() {
-        return prenom;
+    public Bitmap getQuickContact() {
+        return quickContact;
     }
 
-    public void setPrenom(String prenom) {
-        this.prenom = prenom;
+    public void setQuickContact(Bitmap quickContact) {
+        this.quickContact = quickContact;
     }
 
     public String getTel() {

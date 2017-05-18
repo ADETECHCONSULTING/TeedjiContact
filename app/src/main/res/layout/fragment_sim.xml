@@ -5,8 +5,20 @@
     tools:context="com.example.jean.testcontact.vue.FragmentSim">
 
 
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:inputType="textPersonName"
+        android:hint="@android:string/search_go"
+        android:ems="10"
+        android:id="@+id/searchSim" />
+
     <android.support.v7.widget.RecyclerView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:id="@+id/idRecyclerSim" />
+        android:id="@+id/idRecyclerSim"
+        android:layout_marginTop="5dp"
+        android:layout_below="@+id/searchSim"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
 </RelativeLayout>
