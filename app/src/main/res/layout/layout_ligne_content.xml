@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <android.support.v7.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/cv">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="70dp">
+
+            <ImageView
+                app:srcCompat="@android:color/white"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentTop="true"
+                android:id="@+id/idPhoto"
+                android:layout_alignParentBottom="true"
+                android:layout_width="60dp"
+                android:layout_height="40dp" />
+
+            <TextView
+                android:text="@string/nom"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentTop="true"
+                android:layout_toRightOf="@+id/idPhoto"
+                android:layout_marginLeft="25dp"
+                android:layout_marginTop="10dp"
+                android:id="@+id/idNom" />
+
+            <TextView
+                android:text="@string/tel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/idNom"
+                android:layout_alignLeft="@+id/idNom"
+                android:layout_marginTop="14dp"
+                android:id="@+id/idTel" />
+
+        </RelativeLayout>
+    </android.support.v7.widget.CardView>
+</LinearLayout>
